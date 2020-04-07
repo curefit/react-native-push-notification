@@ -568,6 +568,17 @@ public class RNPushNotificationHelper {
 
         int importance = NotificationManager.IMPORTANCE_HIGH;
         final String importanceString = bundle.getString("importance");
+        String channelId = bundle.getString("channelId");
+        if(channelId == null) {
+            channelId =  NOTIFICATION_CHANNEL_ID;
+        }
+        String channelName = bundle.getString("channelName");
+        if(channelName == null)  {
+            channelName = this.config.getChannelName();
+        }
+        if(channelName == null)  {
+            channelName = "rn-push-notification-channel";
+        }
 
         if (importanceString != null) {
             switch(importanceString.toLowerCase()) {
@@ -597,15 +608,15 @@ public class RNPushNotificationHelper {
             }
         }
 
-        NotificationChannel mChannel = manager.getNotificationChannel(NOTIFICATION_CHANNEL_ID);
+        NotificationChannel mChannel = manager.getNotificationChannel(channelId);
 
         if (mChannel == null) {
-            channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, this.config.getChannelName() != null ? this.config.getChannelName() : "rn-push-notification-channel", importance);
-            channel.setDescription(this.config.getChannelDescription());
-            channel.enableLights(true);
-            channel.enableVibration(true);
-            channel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            manager.createNotificationChannel(channel);
+            mChannel = new NotificationChannel(channelId, channelName, importance);
+            mChannel.setDescription(this.config.getChannelDescription());
+            mChannel.enableLights(true);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            manager.createNotificationChannel(mChannel);
         }
         channelCreated = true;
     }
