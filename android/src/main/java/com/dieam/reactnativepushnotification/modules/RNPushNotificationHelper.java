@@ -208,7 +208,12 @@ public class RNPushNotificationHelper {
                 }
             }
 
-            NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            String channelId = bundle.getString("channelId");
+            if (channelId == null) {
+                channelId = NOTIFICATION_CHANNEL_ID;
+            }
+
+            NotificationCompat.Builder notification = new NotificationCompat.Builder(context, channelId)
                     .setContentTitle(title)
                     .setTicker(bundle.getString("ticker"))
                     .setVisibility(visibility)
@@ -592,13 +597,16 @@ public class RNPushNotificationHelper {
             }
         }
 
-        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, this.config.getChannelName() != null ? this.config.getChannelName() : "rn-push-notification-channel", importance);
+        NotificationChannel mChannel = manager.getNotificationChannel(NOTIFICATION_CHANNEL_ID);
 
-        channel.setDescription(this.config.getChannelDescription());
-        channel.enableLights(true);
-        channel.enableVibration(true);
-
-        manager.createNotificationChannel(channel);
+        if (mChannel == null) {
+            channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, this.config.getChannelName() != null ? this.config.getChannelName() : "rn-push-notification-channel", importance);
+            channel.setDescription(this.config.getChannelDescription());
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            channel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            manager.createNotificationChannel(channel);
+        }
         channelCreated = true;
     }
 }
