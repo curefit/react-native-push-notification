@@ -1,6 +1,6 @@
 {
   "name": "@curefit/react-native-push-notification",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "React Native Local and Remote Notifications",
   "main": "index",
   "scripts": {
