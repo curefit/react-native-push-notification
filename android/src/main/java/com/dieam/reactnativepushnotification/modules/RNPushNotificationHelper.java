@@ -246,7 +246,7 @@ public class RNPushNotificationHelper {
             String smallIcon = bundle.getString("smallIcon");
 
             if (smallIcon != null) {
-                smallIconResId = res.getIdentifier(smallIcon, "mipmap", packageName);
+                smallIconResId = res.getIdentifier(smallIcon, "drawable", packageName);
             } else {
                 smallIconResId = res.getIdentifier("ic_notification", "mipmap", packageName);
             }
@@ -260,7 +260,7 @@ public class RNPushNotificationHelper {
             }
 
             if (largeIcon != null) {
-                largeIconResId = res.getIdentifier(largeIcon, "mipmap", packageName);
+                largeIconResId = res.getIdentifier(largeIcon, "drawable", packageName);
             } else {
                 largeIconResId = res.getIdentifier("ic_launcher", "mipmap", packageName);
             }
